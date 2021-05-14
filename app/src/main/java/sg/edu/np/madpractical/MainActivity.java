@@ -3,11 +3,13 @@ package sg.edu.np.madpractical;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static String TAB = "MAD Practical";
@@ -15,8 +17,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent randomNumber = getIntent();
         User myself = new User();
-        myself.setName("Melvin");
+        int myID = randomNumber.getIntExtra("UID", 0);
+        myself.setName("Melvin " + String.valueOf(myID));
         myself.setDescription("Accomplished Mobile Application Developer");
         myself.setFollowed(false);
         Button follow = findViewById(R.id.follow);
@@ -29,10 +33,12 @@ public class MainActivity extends AppCompatActivity {
                 if (!status){
                     follow.setText("Follow");
                     myself.setFollowed(false);
+                    Toast.makeText(getApplicationContext(), "Unfollowed", Toast.LENGTH_SHORT).show();
                 }
                 else if (status){
                     follow.setText("Unfollow");
                     myself.setFollowed(true);
+                    Toast.makeText(getApplicationContext(), "Followed", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     System.out.println("You messed up somewhere bro");
