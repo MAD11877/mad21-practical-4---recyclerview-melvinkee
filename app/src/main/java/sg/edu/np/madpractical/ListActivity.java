@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,13 +29,18 @@ public class ListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        ImageView image = findViewById(R.id.image);
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog();
-            }
-        });
+
+        for (int i = 0; i < 21; i++){
+            objCreator();
+            userList.add(objCreator());
+        }
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        Adaptor customAdaptor = new Adaptor(userList);
+        LinearLayoutManager cLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(cLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(customAdaptor);
     }
 
     @Override
@@ -71,6 +79,21 @@ public class ListActivity extends AppCompatActivity {
         return otp;
     }
 
+    private boolean randomBool(){
+        Random ran = new Random();
+        int upperbound = 2;
+        int randomBool = ran.nextInt(upperbound);
+        if (randomBool == 0) {
+            return false;
+        }
+        else if (randomBool == 1){
+            return true;
+        }
+        else {
+            return true;
+        }
+    }
+
     private void alertDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Profile");
@@ -93,5 +116,17 @@ public class ListActivity extends AppCompatActivity {
         });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    private User objCreator(){
+        User newUser = new User();
+        int newID = randomGen();
+        String newDesc = String.valueOf(randomGen());
+        boolean newStatus = randomBool();
+        newUser.setName("Name" + String.valueOf(newID));
+        newUser.setId(newID);
+        newUser.setDescription(newDesc);
+        newUser.setFollowed(newStatus);
+        return newUser;
     }
 }
