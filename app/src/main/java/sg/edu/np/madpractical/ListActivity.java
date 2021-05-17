@@ -24,13 +24,13 @@ import java.util.Random;
 
 public class ListActivity extends AppCompatActivity {
     private static String TAB = "MAD Practical";
-    ArrayList<User> userList = new ArrayList<>();
+    public static ArrayList<User> userList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
 
-        for (int i = 0; i < 21; i++){
+        for (int i = 0; i < 20; i++){
             objCreator();
             userList.add(objCreator());
         }
@@ -75,7 +75,7 @@ public class ListActivity extends AppCompatActivity {
 
     private int randomGen(){
         Random ran = new Random();
-        int otp = ran.nextInt(10000);
+        int otp = ran.nextInt();
         return otp;
     }
 
@@ -94,30 +94,6 @@ public class ListActivity extends AppCompatActivity {
         }
     }
 
-    private void alertDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Profile");
-        builder.setMessage("MADness");
-        builder.setPositiveButton("View", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(ListActivity.this, MainActivity.class);
-                int uid = randomGen();
-                intent.putExtra("UID", uid);
-                startActivity(intent);
-                Log.v(TAB, "View!");
-            }
-        });
-        builder.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
-
     private User objCreator(){
         User newUser = new User();
         int newID = randomGen();
@@ -125,7 +101,7 @@ public class ListActivity extends AppCompatActivity {
         boolean newStatus = randomBool();
         newUser.setName("Name" + String.valueOf(newID));
         newUser.setId(newID);
-        newUser.setDescription(newDesc);
+        newUser.setDescription("Description " + newDesc);
         newUser.setFollowed(newStatus);
         return newUser;
     }

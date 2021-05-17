@@ -17,12 +17,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent randomNumber = getIntent();
-        User myself = new User();
-        int myID = randomNumber.getIntExtra("UID", 0);
-        myself.setName("Melvin " + String.valueOf(myID));
-        myself.setDescription("Accomplished Mobile Application Developer");
-        myself.setFollowed(false);
+        Intent data = getIntent();
+        int index = data.getIntExtra("Index", 0);
+        User myself = ListActivity.userList.get(index);
         Button follow = findViewById(R.id.follow);
         follow.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
